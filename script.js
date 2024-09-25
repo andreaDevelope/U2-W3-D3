@@ -1,5 +1,19 @@
 const row = document.querySelector(".row");
 const ul = document.querySelector("ul");
+const localStorageKey = "articoli nel carrello";
+let carrelloArr = [];
+
+if (localStorage.getItem(localStorageKey)) {
+  const carrelloContent = JSON.parse(localStorage.getItem(localStorageKey));
+  carrelloContent.forEach((title) => {
+    console.log(title);
+    ul.innerHTML = `
+    <li class="dropdown-item">${title}</li>
+    `;
+  });
+} else {
+  carrelloArr = [];
+}
 
 const generateColum = (dataArr) => {
   dataArr.forEach((data) => {
@@ -36,7 +50,11 @@ const buy = (dataArr) => {
       ul.innerHTML += `
         <li class="dropdown-item">${dataArr[i].title}</li>
         
+        
         `;
+      const li = document.querySelector("li");
+      carrelloArr.push(dataArr[i].title);
+      localStorage.setItem(localStorageKey, JSON.stringify(carrelloArr));
     });
   });
 };
